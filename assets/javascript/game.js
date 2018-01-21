@@ -26,7 +26,7 @@ var wordCatalog = {
         ["pear", "light-green"],
         ["apple", "red"],
         ["tomato", "very red"],
-        ["pinapple", "rusty-yellow"],
+        ["pineapple", "rusty-yellow"],
         ["kiwi", "brown"]
     ],
     // Randomly selects a word from the word catalog  
@@ -51,6 +51,7 @@ var wordCatalog = {
 
 // maintains secretWord Object
 //	pass in the (flattened) key that was pressed
+// updates KeynotFound and slotsRemaining
 
 function updateWord(key) {
     if (key === "") {
@@ -58,27 +59,33 @@ function updateWord(key) {
         secretWord.slotsRemaining = secretWord.currentWord.length
         secretWord.slotsDiscovered = "_"; // clear the hitList
         secretWord.slotsDiscovered = secretWord.slotsDiscovered.repeat(secretWord.currentWord.length);
-        secretWord.keyNotFound = true; // set found = true (just to be thorough)
+        console.log("length of discovered: " + secretWord.slotsDiscovered.length);
+        secretWord.keyNotFound = null; // 
     } else {
-        //		match character in the secret word
-        for (i = 0; i < secretWord.currentWord.length - 1; i++ ) {
-            if (key === secretWord.currentWord[i]) {
-                // TODO: do something interestion
-                //			update hitList (might already exist), set found = true
-            } else {
-                // TODO: indicate not found
-                //		else, set found = false
+        if (secretWord.currentWord.includes(key)) { // check if key is in the current word.
+            secretWord.slotsRemaining = 0; // Prepare to count "holes" 
+            for (i = 0; i < secretWord.currentWord.length; i++) { // update the hitlist & slots remaining
+                if (secretWord.currentWord.charAt(i) === key) {
+                    secretWord.slotsDiscovered =
+                        secretWord.slotsDiscovered.slice(0, i) +
+                        key +
+                        secretWord.slotsDiscovered.slice(i + 1);
+                }
+                if (secretWord.slotsDiscovered.charAt(i) === "_") { // this is a "hole"
+                    secretWord.slotsRemaining++;
+                }
             }
+            secretWord.keyNotFound = false; // clear key not found
+        } else {
+            secretWord.keyNotFound = true; // set key not found
         }
     }
-//	updates secret word display
-//	updates slotsRemaining
-console.log("updating word: " +
-    secretWord.currentWord + "|" +
-    secretWord.slotsRemaining + "|" +
-    secretWord.slotsDiscovered + "|" +
-    secretWord.keyNotFound);
-return // TODO: bolean(found), integer(slotsRemaining)
+    //	TODO: updates secret word display
+    console.log("updating word: " +
+        secretWord.currentWord + "|" +
+        secretWord.slotsRemaining + "|" +
+        secretWord.slotsDiscovered + "|" +
+        secretWord.keyNotFound);
 }
 
 
@@ -87,18 +94,20 @@ return // TODO: bolean(found), integer(slotsRemaining)
 // pass in the (flattened) key that was pressed.  Empty key causes initialization. 
 
 function updateGuesses(key) {
-    //	pass in the (flattened) key that was pressed 
     if (key === "") {
         guesses.missList = ""; // initialize the list of bad choices
         guesses.remaining = guesses.allowed; // initialize guesses remaining
     } else {
-        // check if key is in miss list.  if not add key to the miss list and decrement remaining.
+        if (!guesses.missList.includes(key)) { // check if key is in miss list. 
+            guesses.missList = guesses.missList + key; // add key to the miss list
+            guesses.remaining--; //decrement remaining
+        }
     }
-    // update the letters rejected display
-    // update the guesses remaining display
+    // TODO: update the letters rejected display
+    // TODO: update the guesses remaining display
     console.log("updating guesses: " +
-        guesses.allowed + " " +
-        guesses.missList + " " +
+        guesses.allowed + "|" +
+        guesses.missList + "|" +
         guesses.remaining);
     return guesses.remaining
 }
@@ -106,10 +115,13 @@ function updateGuesses(key) {
 function win() {
     console.log("showing win");
     console.log("Your reward is:" + wordCatalog.getReward(secretWord.currentWord));
+
 }
 
 function lose() {
     console.log("showing loss");
+    console.log("you dont get a prize");
+
 }
 
 function showInstructions() {
@@ -161,12 +173,16 @@ document.onkeyup = function(event) { // wait for key press
         updateWord(userInput); //	mash the key entered against the current word
         if (secretWord.slotsRemaining === 0) { // if you have matched all the characters, you win
             win();
+            updateWord(key = ""); // Get new secret word and initialze the secret word display
+            updateGuesses(key = ""); // Zero out the guess list and initialize the guess list display
         }
         if (secretWord.keyNotFound) { // Didn't win so check against guesses so far
             updateGuesses(userInput);
         }
         if (guesses.remaining === 0) { // if out of guesses, you lose
             lose();
+            updateWord(key = ""); // Get new secret word and initialze the secret word display
+            updateGuesses(key = ""); // Zero out the guess list and initialize the guess list display
         }
     }
 };
