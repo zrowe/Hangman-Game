@@ -1,6 +1,7 @@
 // Initialize
 var key = "";
-
+var wins = 0;
+var loses = 0;
 
 var secretWord = {
     currentWord: "",
@@ -14,7 +15,6 @@ var guesses = {
     remaining: 0,
     missList: ""
 }
-
 
 // Object for catalog of words and rewards
 // Contains methods for fetching a word randomly and fetching a word's reward.
@@ -81,13 +81,14 @@ function updateWord(key) {
         }
     }
     //	TODO: updates secret word display
+    document.getElementById("word").innerHTML = secretWord.slotsDiscovered;
+
     console.log("updating word: " +
         secretWord.currentWord + "|" +
         secretWord.slotsRemaining + "|" +
         secretWord.slotsDiscovered + "|" +
         secretWord.keyNotFound);
 }
-
 
 // Function to compare a bad guess (key) against bad guess list
 // update the list if necessary, and return the number of guesses remaining.
@@ -104,7 +105,11 @@ function updateGuesses(key) {
         }
     }
     // TODO: update the letters rejected display
+    document.getElementById("rejected").innerHTML = guesses.missList;
+
     // TODO: update the guesses remaining display
+    document.getElementById("remaining").innerHTML = guesses.remaining;
+
     console.log("updating guesses: " +
         guesses.allowed + "|" +
         guesses.missList + "|" +
@@ -113,15 +118,28 @@ function updateGuesses(key) {
 }
 
 function win() {
+    wins++;
+    var reward = wordCatalog.getReward(secretWord.currentWord);
+
+    // TODO: update the wins display
+    document.getElementById("wins").innerHTML = wins;
+
+    // TODO: update the reward display
+    document.getElementById("reward").innerHTML = reward;
+
     console.log("showing win");
-    console.log("Your reward is:" + wordCatalog.getReward(secretWord.currentWord));
+    console.log("Your reward is:" + reward);
 
 }
 
 function lose() {
+    loses++;
+
+    // TODO: update the loses display
+    document.getElementById("loses").innerHTML = loses;
+
     console.log("showing loss");
     console.log("you dont get a prize");
-
 }
 
 function showInstructions() {
