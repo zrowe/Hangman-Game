@@ -1,16 +1,75 @@
+html {
+    position: relative;
+    height: 100%;
+	background: url(../images/musical-notes.png) no-repeat center fixed;
+    background-size: cover;
+}
 
 body {
-	margin: auto;
+    padding: 0;
+    margin: 0;
+    font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    color: #777777;
+    margin-bottom: 90px;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 h1 {
-	size: 32px;
+    font-family: 'Georgia', Times, Times New Roman, serif;
+    font-size: 27px;
+    color: #4aaaa5;
+    padding-bottom: 30px;
+    font-weight: bold;
 }
 
+h2 {
+    font-family: 'Georgia', Times, Times New Roman, serif;
+    font-size: 20px;
+    color: #4aaaa5;
+    font-weight: bold;
+    padding-bottom: 20px;
+}
 
+main {
+	width:960px;
+    clear: both;
+    margin: 0 auto;
 
+    /* phone */
+}
 
+article {
 
+    margin-top: 40px;
+    width: 100%;
+    background-color: #ffffff;
+    border: 2px solid #dddddd;
+    padding: 30px;
+}
 
+aside {
+    font-size: 16px;
+    margin-top: 30px;
+    box-sizing: border-box;
+    float: right;
+    margin-top: 40px;
+    width: 100%;
+    background-color: #ffffff;
+    border: 2px solid #dddddd;
+    padding: 30px;
+}
 
-
+footer {
+    clear: both;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background-color: #666666;
+    border-top: 5px solid #4aaaa5;
+    height: 90px;
+    display: table;
+}

@@ -2,6 +2,7 @@
 var key = "";
 var wins = 0;
 var loses = 0;
+var debug = true;
 
 var secretWord = {
     currentWord: "",
@@ -18,16 +19,24 @@ var guesses = {
 
 // Object for catalog of words and rewards
 // Contains methods for fetching a word randomly and fetching a word's reward.
+// Based upon: https://listverse.com/2009/12/17/top-15-greatest-composers-of-all-time/
 var wordCatalog = {
     catalog: [
-        ["banana", "yellow"],
-        ["grape", "green"],
-        ["orange", "orange"],
-        ["pear", "light-green"],
-        ["apple", "red"],
-        ["tomato", "very red"],
-        ["pineapple", "rusty-yellow"],
-        ["kiwi", "brown"]
+        ["haydn", "yellow"],
+        ["handel", "green"],
+        ["rachmaninov", "orange"],
+        ["tchaikovsky", "light-green"],
+        ["mahler", "red"],
+        ["verdi", "very red"],
+        ["liszt", "rusty-yellow"],
+        ["brahms", "rusty-yellow"],
+        ["chopin", "rusty-yellow"],
+        ["schumann", "rusty-yellow"],
+        ["schubert", "rusty-yellow"],
+        ["wagner", "rusty-yellow"],
+        ["beethoven", "rusty-yellow"],
+        ["mozart", "rusty-yellow"],
+        ["bach", "brown"]
     ],
     // Randomly selects a word from the word catalog  
     getSecretWord: function() {
@@ -81,13 +90,19 @@ function updateWord(key) {
         }
     }
     //	TODO: updates secret word display
-    document.getElementById("word").innerHTML = secretWord.slotsDiscovered;
+    var paddedSlots = "";
+    for (i = 0; i <secretWord.slotsDiscovered.length; i++){
+    	paddedSlots = paddedSlots + secretWord.slotsDiscovered[i] + " ";
+    }
+    document.getElementById("word").innerHTML = paddedSlots;
 
-    console.log("updating word: " +
+    if (debug) {
+    	console.log("updating word: " +
         secretWord.currentWord + "|" +
         secretWord.slotsRemaining + "|" +
         secretWord.slotsDiscovered + "|" +
         secretWord.keyNotFound);
+    }
 }
 
 // Function to compare a bad guess (key) against bad guess list
@@ -104,8 +119,9 @@ function updateGuesses(key) {
             guesses.remaining--; //decrement remaining
         }
     }
+
     // TODO: update the letters rejected display
-    document.getElementById("rejected").innerHTML = guesses.missList;
+    document.getElementById("rejected").innerHTML = guesses.missList.split('').sort().join('');
 
     // TODO: update the guesses remaining display
     document.getElementById("remaining").innerHTML = guesses.remaining;
