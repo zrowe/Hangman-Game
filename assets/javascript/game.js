@@ -2,7 +2,7 @@
 var key = "";
 var wins = 0;
 var loses = 0;
-var debug = true;
+var debug = false;
 
 var secretWord = {
     currentWord: "",
@@ -22,21 +22,21 @@ var guesses = {
 // Based upon: https://listverse.com/2009/12/17/top-15-greatest-composers-of-all-time/
 var wordCatalog = {
     catalog: [
-        ["haydn", "yellow"],
-        ["handel", "green"],
-        ["rachmaninov", "orange"],
-        ["tchaikovsky", "light-green"],
-        ["mahler", "red"],
-        ["verdi", "very red"],
-        ["liszt", "rusty-yellow"],
-        ["brahms", "rusty-yellow"],
-        ["chopin", "rusty-yellow"],
-        ["schumann", "rusty-yellow"],
-        ["schubert", "rusty-yellow"],
-        ["wagner", "rusty-yellow"],
-        ["beethoven", "rusty-yellow"],
-        ["mozart", "rusty-yellow"],
-        ["bach", "brown"]
+        ["haydn", "Franz Joseph Haydn"],
+        ["handel", "George Frederick Handel"],
+        ["rachmaninov", "Sergei Rachmaninov"],
+        ["tchaikovsky", "Peter Ilyich Tchaikovsky"],
+        ["mahler", "Gustav Mahler"],
+        ["verdi", "Giuseppe Verdi"],
+        ["liszt", "Johannes Brahms"],
+        ["brahms", "Franz Liszt"],
+        ["chopin", "Frederic Chopin"],
+        ["schumann", "Robert Schumann"],
+        ["schubert", "Franz Schubert"],
+        ["wagner", "Richard Wagner"],
+        ["beethoven", "Ludwig van Beethoven"],
+        ["mozart", "Wolfgang Amadeus Mozart"],
+        ["bach", "Johann Sebastian Bach"]
     ],
     // Randomly selects a word from the word catalog  
     getSecretWord: function() {
@@ -59,7 +59,7 @@ var wordCatalog = {
 }
 
 // maintains secretWord Object
-//	pass in the (flattened) key that was pressed
+//  pass in the (flattened) key that was pressed
 // updates KeynotFound and slotsRemaining
 
 function updateWord(key) {
@@ -68,7 +68,6 @@ function updateWord(key) {
         secretWord.slotsRemaining = secretWord.currentWord.length
         secretWord.slotsDiscovered = "_"; // clear the hitList
         secretWord.slotsDiscovered = secretWord.slotsDiscovered.repeat(secretWord.currentWord.length);
-        console.log("length of discovered: " + secretWord.slotsDiscovered.length);
         secretWord.keyNotFound = null; // 
     } else {
         if (secretWord.currentWord.includes(key)) { // check if key is in the current word.
@@ -89,19 +88,19 @@ function updateWord(key) {
             secretWord.keyNotFound = true; // set key not found
         }
     }
-    //	TODO: updates secret word display
+    //  TODO: updates secret word display
     var paddedSlots = "";
-    for (i = 0; i <secretWord.slotsDiscovered.length; i++){
-    	paddedSlots = paddedSlots + secretWord.slotsDiscovered[i] + " ";
+    for (i = 0; i < secretWord.slotsDiscovered.length; i++) {
+        paddedSlots = paddedSlots + secretWord.slotsDiscovered[i] + " ";
     }
     document.getElementById("word").innerHTML = paddedSlots;
 
     if (debug) {
-    	console.log("updating word: " +
-        secretWord.currentWord + "|" +
-        secretWord.slotsRemaining + "|" +
-        secretWord.slotsDiscovered + "|" +
-        secretWord.keyNotFound);
+        console.log("updating word: " +
+            secretWord.currentWord + "|" +
+            secretWord.slotsRemaining + "|" +
+            secretWord.slotsDiscovered + "|" +
+            secretWord.keyNotFound);
     }
 }
 
@@ -120,16 +119,18 @@ function updateGuesses(key) {
         }
     }
 
-    // TODO: update the letters rejected display
+    // Update the letters rejected display
     document.getElementById("rejected").innerHTML = guesses.missList.split('').sort().join('');
 
-    // TODO: update the guesses remaining display
+    // Update the guesses remaining display
     document.getElementById("remaining").innerHTML = guesses.remaining;
 
-    console.log("updating guesses: " +
-        guesses.allowed + "|" +
-        guesses.missList + "|" +
-        guesses.remaining);
+    if (debug) {
+        console.log("updating guesses: " +
+            guesses.allowed + "|" +
+            guesses.missList + "|" +
+            guesses.remaining);
+    }
     return guesses.remaining
 }
 
@@ -137,42 +138,51 @@ function win() {
     wins++;
     var reward = wordCatalog.getReward(secretWord.currentWord);
 
-    // TODO: update the wins display
+    // Update the wins display
     document.getElementById("wins").innerHTML = wins;
 
-    // TODO: update the reward display
+    // Update the reward display
     document.getElementById("reward").innerHTML = reward;
 
-    console.log("showing win");
-    console.log("Your reward is:" + reward);
-
+    if (debug) {
+        console.log("showing win");
+        console.log("Your reward is:" + reward);
+    }
 }
 
 function lose() {
     loses++;
 
-    // TODO: update the loses display
+    // Update the loses display
     document.getElementById("loses").innerHTML = loses;
 
-    console.log("showing loss");
-    console.log("you dont get a prize");
+    if (debug) {
+        console.log("showing loss");
+        console.log("you dont get a prize");
+    }
 }
 
 function showInstructions() {
-    console.log("showing instructions");
+    if (debug) {
+        console.log("showing instructions");
+    }
 }
 
 function showBadChoice() {
-    console.log("showing bad character choice");
+    if (debug) { console.log("showing bad character choice"); }
 }
 
 function isLetter(key) {
-    console.log("checking for isLetter");
+    if (debug) {
+        console.log("checking for isLetter");
+    }
     var letters = /^[a-z]+$/;
     if (key.match(letters)) {
         return true;
     } else {
-        console.log("not a letter");
+        if (debug) {
+            console.log("not a letter");
+        }
         return false;
     }
 }
@@ -182,7 +192,7 @@ function isLetter(key) {
 // ======================
 
 
-//"ask do you want to play?"
+// TODO: "ask do you want to play?"
 
 updateWord(key = ""); // Get new secret word and initialze the secret word display
 updateGuesses(key = ""); // Zero out the guess list and initialize the guess list display
@@ -192,19 +202,19 @@ document.onkeyup = function(event) { // wait for key press
     // Determine which key was pressed, make it lowercase, and set it to the userInput variable.
     var userInput = String.fromCharCode(event.which).toLowerCase();
 
-    console.log("User pressed: " + userInput);
+    if (debug) { console.log("User pressed: " + userInput); }
 
     if (userInput === "?") {
         showInstructions();
     }
     if (userInput === ".") { // Check for end of game
-        console.log("end game");
+        if (debug) { console.log("end game"); }
         return;
     }
     if (!isLetter(userInput)) { // Check for non-letter  
         showBadChoice();
     } else {
-        updateWord(userInput); //	mash the key entered against the current word
+        updateWord(userInput); //   mash the key entered against the current word
         if (secretWord.slotsRemaining === 0) { // if you have matched all the characters, you win
             win();
             updateWord(key = ""); // Get new secret word and initialze the secret word display

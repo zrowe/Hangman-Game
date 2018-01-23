@@ -4,25 +4,85 @@
 <head>
     <title>Hangman Game</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--   <link rel="stylesheet" type="text/css" href="assets/css/reset.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
 </head>
 
 <body>
-    <main>
-        <article>
-            <h1>Hangman Game -- Best Known Composers</h1>
-            <p>Secret Word: <span id="word">placeholder</span></p>
-            <br>
-            <p>Number of guesses remaining: <span id="remaining"></span></p>
-            <p>List of Rejected Letters: <span id="rejected"></span></p>
-            <br>
-            <p>Number of rounds won: <span id="wins">0</span></p>
-            <p>Your Latest Reward: <span id="reward"></span></p>
-            <br>
-            <p>Number of rounds lost: <span id="loses">0</span></p>
-        </article>
-    </main>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Hangman</h1>
+            <h2>The Dead Composer Edition</h2>
+        </div>
+        <main class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <section class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <h3>Guess the Composer</h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <p id="word"></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6 text-center">
+                                    <h4>Letters Used</h4>
+                                    <p id="rejected"></p>
+                                </div>
+                                <div class="col-xs-6 text-center">
+                                    <h4>Guesses Left</h4>
+                                    <p id="remaining">?</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6 text-center">
+                                    <h4>Rounds Won</h4>
+                                    <p id="wins">0</p>
+                                </div>
+                                <div class="col-xs-6 text-center">
+                                    <h4>Rounds Lost</h4>
+                                    <p id="loses">0</p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <section class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <h3 id="reward">Composer's Bio
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <h4>TODO: Placeholder Picture of Composer</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <h4>TODO: Placeholder Bio Text</h4>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="footer">
+            <p>&copy;Copyright 2018 Paul Rowe</p>
+        </footer>
+    </div>
+    <!-- /container -->
     <script type="text/javascript" src="assets/javascript/game.js"></script>
 </body>
 
